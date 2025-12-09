@@ -51,10 +51,10 @@ onAuthStateChanged(auth, (user) => {
 
 // ==== 1. 책 데이터 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
-  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/books_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json";
 
 const GOODS_JSON_URL =
-  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/goods_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json";
 
 let booksData = [];
 let goodsData = [];
