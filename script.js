@@ -1,8 +1,8 @@
 // ==== 7. Firebase  ====
-import { initializeAPP } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
-  ggetAuth,
+  getAuth,
   GithubAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
@@ -19,8 +19,8 @@ const firebaseConfig = {
 };
 
 const app = initializeAPP(firebaseConfig);
-const auth = ggetAuth(app);
-const provier = new GithubAuthProvider();
+const auth = getAuth(app);
+const provider = new GithubAuthProvider();
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -28,7 +28,7 @@ const userInfo = document.getElementById("userInfo");
 const chatBox = document.getElementById("chatBox");
 
 loginBtn.addEventListener("click", () => {
-  signInWithPopup(auth, provier);
+  signInWithPopup(auth, provider);
 });
 
 logoutBtn.addEventListener("click", () => {
@@ -48,6 +48,11 @@ onAuthStateChanged(auth, (user) => {
     chatBox.style.display = "none";
   }
 });
+
+// ==== 8. 파이어베이스 채팅 기능 ====
+const chatMessages = document.getElementById("chatMessages");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
 
 // ==== 1. 책 데이터 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
