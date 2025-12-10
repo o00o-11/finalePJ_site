@@ -1,6 +1,7 @@
-// ==== 7. Firebase Auth ====
+// ==== 7. Firebase Init ====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
+// ==== Firebase Auth
 import {
   getAuth,
   GithubAuthProvider,
@@ -8,6 +9,25 @@ import {
   onAuthStateChanged,
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// firebase store(database) 관리
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  serverTimestamp,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// firebase storage 관리
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDQCLQtmS2aiJzxD4e7EsOXy7Ew89Hi7fM",
@@ -21,6 +41,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GithubAuthProvider();
+const db = getFirestore(app);
+const storage = getStorage(app);
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
@@ -54,12 +76,64 @@ const chatMessages = document.getElementById("chatMessages");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 
+const messagesRef = collection(db, "messages");
+const qMessages = query(messagesRef, orderBy("created_at", "asc"));
+onSnapshot(qMessages, (snapshot) => {
+  chatMessages.innerHTML = "";
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const li = document.createElement("li");
+    let html = `<strong>${data.user_name}</strong>: ${data.text || ""}`;
+    if (data.imageUrl) {
+      html += `<br /><img src="${data.imageUrl}" alt="image" style="max-width:200px; border-radius:8px; margin-top:4px;" />`;
+    }
+    li.innerHTML = html;
+    chatMessages.appendChild(li);
+  });
+});
+
+const chatImageInput = document.getElementById("chatImage");
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const user = auth.currentUser;
+  if (!user) {
+    alert("먼저 GitHub로 로그인 해주세요.");
+    return;
+  }
+  const text = chatInput.value;
+  const file = chatImageInput.files[0];
+  if (!text.trim() && !file) {
+    return;
+  }
+  let imageUrl = null;
+  try {
+    if (file) {
+      const filePath = `chatImages/${user.uid}/${Date.now()}_${file.name}`;
+      const storageRef = ref(storage, filePath);
+      await uploadBytes(storageRef, file);
+      imageUrl = await getDownloadURL(storageRef);
+    }
+    await addDoc(messagesRef, {
+      user_id: user.uid,
+      user_name: user.displayName || user.email,
+      text,
+      imageUrl,
+      created_at: serverTimestamp(),
+    });
+    chatInput.value = "";
+    chatImageInput.value = "";
+  } catch (err) {
+    console.error("채팅 저장 오류:", err);
+    alert("메시지를 전송하는 중 오류가 발생했습니다.");
+  }
+});
+
 // ==== 1. 책 & 굿즈 데이터 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
-  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/books_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json";
 
 const GOODS_JSON_URL =
-  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/goods_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json";
 
 let booksData = [];
 let goodsData = [];
