@@ -1,4 +1,4 @@
-// ==== 7. Firebase  ====
+// ==== 7. Firebase Auth ====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
@@ -10,15 +10,15 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAd87ajSYNSa8TmAlABSNl8tNNwvLHX1Bk",
-  authDomain: "finalepj.firebaseapp.com",
-  projectId: "finalepj",
-  storageBucket: "finalepj.firebasestorage.app",
-  messagingSenderId: "313352945750",
-  appId: "1:313352945750:web:c0b9b05a1775cd391efbf7",
+  apiKey: "AIzaSyDQCLQtmS2aiJzxD4e7EsOXy7Ew89Hi7fM",
+  authDomain: "finalproject-api-251209.firebaseapp.com",
+  projectId: "finalproject-api-251209",
+  storageBucket: "finalproject-api-251209.firebasestorage.app",
+  messagingSenderId: "609885297100",
+  appId: "1:609885297100:web:0d46714b58b9ba842f2569",
 };
 
-const app = initializeAPP(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GithubAuthProvider();
 
@@ -49,17 +49,17 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ==== 8. 파이어베이스 채팅 기능 ====
+// ==== 8. Firebase Chat ====
 const chatMessages = document.getElementById("chatMessages");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 
-// ==== 1. 책 데이터 로드 & 렌더링 ====
+// ==== 1. 책 & 굿즈 데이터 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json";
+  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/books_yes24.json";
 
 const GOODS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json";
+  "https://raw.githubusercontent.com/Divjason/finalProject_api/refs/heads/main/goods_yes24.json";
 
 let booksData = [];
 let goodsData = [];
@@ -78,7 +78,7 @@ async function loadAllData() {
   renderBooks(booksData);
 }
 
-// ==== 2. 브라우저 스캔 후 데이터 로드 및 렌더링 샐행 ====
+// ==== 2. 브라우저 스캔 후 데이터 로드 및 렌더링 실행 ====
 window.addEventListener("DOMContentLoaded", loadAllData);
 
 // ==== 3. 카테고리 드롭다운 메뉴 생성 ====
@@ -101,7 +101,6 @@ function renderBooks(books) {
   const listEl = document.getElementById("bookList");
   listEl.innerHTML = "";
 
-  // ==== 5. 책 검색 필터 함수 ====
   books.forEach((book) => {
     const card = document.createElement("article");
     card.className = "book-card";
@@ -136,6 +135,7 @@ function renderBooks(books) {
   });
 }
 
+// ==== 5. 책 검색 필터 함수 ====
 function applyFilters() {
   const qRaw = document.getElementById("searchInput").value;
   const q = qRaw.trim().toLowerCase();
