@@ -30,12 +30,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDQCLQtmS2aiJzxD4e7EsOXy7Ew89Hi7fM",
-  authDomain: "finalproject-api-251209.firebaseapp.com",
-  projectId: "finalproject-api-251209",
-  storageBucket: "finalproject-api-251209.firebasestorage.app",
-  messagingSenderId: "609885297100",
-  appId: "1:609885297100:web:0d46714b58b9ba842f2569",
+  apiKey: "AIzaSyAd87ajSYNSa8TmAlABSNl8tNNwvLHX1Bk",
+  authDomain: "finalepj.firebaseapp.com",
+  projectId: "finalepj",
+  storageBucket: "finalepj.firebasestorage.app",
+  messagingSenderId: "313352945750",
+  appId: "1:313352945750:web:c0b9b05a1775cd391efbf7",
 };
 
 const app = initializeApp(firebaseConfig);
