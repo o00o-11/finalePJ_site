@@ -384,7 +384,7 @@ async function loadComments(book) {
     listEl.innerHTML = "";
     const user = auth.currentUser;
     if (rows.length === 0) {
-      listEl.innerHTML = "<li>첫 번째 댓글을 남겨보세요 😊</li>";
+      listEl.innerHTML = "<li>첫 번째 댓글을 남겨보세요 😉</li>";
     } else {
       rows.forEach((row) => {
         const li = document.createElement("li");
