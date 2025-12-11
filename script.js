@@ -319,6 +319,15 @@ function renderRelatedGoods(keyword, filteredBooks) {
 // Update : X
 // Delete : 댓글 삭제
 
+// 댓글 버튼 클릭 이벤트 함수
+function openCommentSection(book) {
+  selectedBook = book;
+  document.getElementById(
+    "commentBookTitle"
+  ).textContent = `댓글 - ${book.title}`;
+  loadComments(book);
+}
+
 // 댓글 삭제 = D = Delete
 async function deleteComment(id) {
   if (!confirm("정말 이 댓글을 삭제할까요?")) return;
