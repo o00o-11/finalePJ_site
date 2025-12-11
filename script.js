@@ -780,7 +780,44 @@ async function togglePin(book, buttonEl) {
   }
 }
 
-async function openMyPinsModal() {}
+async function openMyPinsModal() {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("로그인 후 내 스크랩을 볼 수 있습니다.");
+    return;
+  }
+
+  const url = `${SUPABASE_URL}/rest/v1/favorites?firebase_uid=eq.${user.uid}&order=created_at.desc`;
+  const res = await fetch(url, {
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+    },
+  });
+  const rows = await res.json();
+
+  const listEl = document.getElementById("myPinsList");
+  listEl.innerHTML = "";
+
+  if (rows.length === 0) {
+    listEl.innerHTML = "<li>아직 스크랩한 책이 없습니다 🥲</li>";
+  } else {
+    rows.forEach((row) => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <a href="${row.book_url}" target="_blank" class="my-pin-item">
+          ${
+            row.thumbnail
+              ? `<img src="${row.thumbnail}" alt="${row.title}">`
+              : ""
+          }
+          <span>${row.title}</span>
+        </a>
+      `;
+      listEl.appendChild(li);
+    });
+  }
+}
 
 document
   .getElementById("openMyPinsModal")
