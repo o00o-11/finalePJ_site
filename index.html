@@ -9,10 +9,13 @@
   </head>
   <body>
     <header>
+      <!-- 로고역할 -->
       <h1>YES24 Book Hub</h1>
+      <!-- 댓글 모아보기 버튼-->
       <button id="myCommentsToggle" class="my-comments-btn">
         내 댓글 모아보기
       </button>
+      <!-- 검색창 -->
       <div class="filters">
         <input
           id="searchInput"
@@ -25,6 +28,7 @@
       </div>
     </header>
     <main>
+      <!-- 로그인 -->
       <section id="authSection" class="comment-section">
         <h2>GitHub 로그인 & 채팅</h2>
         <button id="loginBtn">GitHub로 로그인</button>
@@ -47,8 +51,11 @@
           </div>
         </div>
       </section>
+      <!-- 책 목록 -->
       <section id="bookList" class="book-list"></section>
+      <!-- 굿즈 목록 -->
       <section id="relatedGoods"></section>
+      <!-- 댓글 기능 -->
       <section id="commentSection" class="comment-section">
         <h2 id="commentBookTitle">댓글</h2>
         <form id="commentForm">
@@ -68,6 +75,7 @@
         <ul id="commentList"></ul>
       </section>
     </main>
+    <!-- 내 댓글 모아보기 모달 -->
     <div id="myCommentsModal" class="modal hidden">
       <div class="modal-content">
         <button id="myCommentsClose" class="modal-close">&times;</button>
@@ -85,6 +93,14 @@
             <p id="myCommentsSentiment"></p>
           </div>
         </div>
+      </div>
+    </div>
+    <!-- 스크랩한 책 모아보기 모달 -->
+    <div id="myPinsModal" class="modal hidden">
+      <div class="modal-content">
+        <button id="closeMyPinsModal" class="modal-close">×</button>
+        <h2>내가 스크랩한 책</h2>
+        <ul id="myPinsList"></ul>
       </div>
     </div>
   </body>
