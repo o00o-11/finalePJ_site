@@ -234,3 +234,51 @@ header {
 #myCommentsWords li {
   padding: 2px 0;
 }
+
+#openMyPinsModal {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: none;
+  background: #444;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#openMyPinsModal:hover {
+  background: #666;
+}
+.book-thumb-wrap {
+  position: relative;
+}
+.pin-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.pin-btn.pinned {
+  background: #ffcc00;
+}
+.my-pin-item img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+#myPinsList li {
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.my-pin-item span {
+  font-size: 16px;
+  font-weight: 500;
+}

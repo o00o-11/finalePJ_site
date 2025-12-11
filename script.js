@@ -1,7 +1,7 @@
 // ==== 7. Firebase Init ====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-// ==== Firebase Auth
+// Firebase Auth
 import {
   getAuth,
   GithubAuthProvider,
@@ -10,7 +10,7 @@ import {
   signOut,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// firebase store(database) 관리
+// Firebase Firestore
 import {
   getFirestore,
   collection,
@@ -21,7 +21,7 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// firebase storage 관리
+// Firebase Storage
 import {
   getStorage,
   ref,
@@ -91,7 +91,6 @@ onSnapshot(qMessages, (snapshot) => {
     chatMessages.appendChild(li);
   });
 });
-
 const chatImageInput = document.getElementById("chatImage");
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -130,12 +129,12 @@ chatForm.addEventListener("submit", async (e) => {
 
 // ==== 1. 책 & 굿즈 데이터 API 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json"";
 
 const GOODS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json"";
 
-// ==== Supabase SQL API 로드 ====
+// Supabase SQL API 로드
 const SUPABASE_URL = "https://egajvihqgtaghdjccooq.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVnYWp2aWhxZ3RhZ2hkamNjb29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzMzUxMDIsImV4cCI6MjA4MDkxMTEwMn0.qEjEopIE5WEYzDkU-Ec3Rky6HmJqOtVR_w7-pGfm5xY";
@@ -146,7 +145,7 @@ let goodsData = [];
 
 // booksData & goodsData
 const categoryGoodsMap = {
-  국내도서_경제경영: "학습/도서",
+  국내도서_경제경영: "학습/독서",
   국내도서_IT: "디지털",
   국내도서_자기계발: "디자인문구",
 };
@@ -240,7 +239,7 @@ function applyFilters() {
   });
   renderBooks(filtered);
 
-  // 굿즈 검색 및 랜더링
+  // 굿즈 검색 및 렌더링
   if (q) {
     renderRelatedGoods(q, filtered);
   } else {
@@ -249,7 +248,7 @@ function applyFilters() {
   }
 }
 
-// ==== 10. 검색어 기반 연고나 굿즈 출력 ====
+// ==== 10. 검색어 기반 연관 굿즈 출력 ====
 function renderRelatedGoods(keyword, filteredBooks) {
   const container = document.getElementById("relatedGoods");
   if (!container) return;
@@ -257,6 +256,7 @@ function renderRelatedGoods(keyword, filteredBooks) {
   container.innerHTML = "";
 
   if (filteredBooks.length === 0) return;
+
   const bookCategories = Array.from(
     new Set(filteredBooks.map((b) => b.category))
   );
@@ -282,13 +282,15 @@ function renderRelatedGoods(keyword, filteredBooks) {
     if (related.length === 0) return;
 
     const section = document.createElement("section");
-
     section.className = "goods-section";
+
     section.innerHTML = `
       <h3>${bookCat} 검색("${keyword}") 관련 굿즈 – ${goodsCat} 추천</h3>
     `;
+
     const list = document.createElement("div");
     list.className = "goods-list";
+
     related.forEach((item) => {
       const card = document.createElement("article");
       card.className = "goods-card";
@@ -305,6 +307,7 @@ function renderRelatedGoods(keyword, filteredBooks) {
       `;
       list.appendChild(card);
     });
+
     section.appendChild(list);
     container.appendChild(section);
   });
@@ -312,11 +315,11 @@ function renderRelatedGoods(keyword, filteredBooks) {
 
 // ==== 11. Supabase 댓글 렌더링 ====
 // 준 Fullstack : 프론트 + 백엔드
-// CRUD를 기준으로 코드를 잡아야함
-// 사이트구축, 플랫폼 => CRUD
+// CRUD
+// 사이트구축.플랫폼 => CRUD
 // Create : 댓글 작성
 // Read : 타인 읽음
-// Update : X
+// Update : x
 // Delete : 댓글 삭제
 
 // 댓글 버튼 클릭 이벤트 함수
@@ -331,7 +334,6 @@ function openCommentSection(book) {
 // 댓글 삭제 = D = Delete
 async function deleteComment(id) {
   if (!confirm("정말 이 댓글을 삭제할까요?")) return;
-
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?id=eq.${id}`,
     {
@@ -343,13 +345,11 @@ async function deleteComment(id) {
       },
     }
   );
-
   if (!res.ok) {
     console.error("삭제 실패", await res.text());
     alert("댓글 삭제 중 오류가 발생했습니다.");
     return;
   }
-
   await loadComments(selectedBook);
 }
 
@@ -357,22 +357,18 @@ async function deleteComment(id) {
 async function loadComments(book) {
   const listEl = document.getElementById("commentList");
   listEl.innerHTML = "<li>댓글 불러오는 중...</li>";
-
   try {
     const url = `${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}?book_url=eq.${encodeURIComponent(
       book.detail_url
     )}&order=created_at.desc`;
-
     const res = await fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
     });
-
     const rows = await res.json();
     listEl.innerHTML = "";
-
     const user = auth.currentUser;
     if (rows.length === 0) {
       listEl.innerHTML =
@@ -387,7 +383,6 @@ async function loadComments(book) {
         li.innerHTML = html;
         listEl.appendChild(li);
       });
-
       listEl.querySelectorAll(".delete-comment").forEach((btn) => {
         btn.addEventListener("click", () => {
           const id = btn.getAttribute("data-id");
@@ -401,7 +396,7 @@ async function loadComments(book) {
   }
 }
 
-// 댓글생성 = C = Create
+// 댓글 생성 = C = Create
 async function submitComment(e) {
   e.preventDefault();
   if (!selectedBook) {
@@ -409,7 +404,7 @@ async function submitComment(e) {
     return;
   }
 
-  const user = auth.currentUser; // Firebase 로그인 유저
+  const user = auth.currentUser;
   if (!user) {
     alert("댓글을 남기려면 먼저 GitHub로 로그인 해주세요.");
     return;
@@ -472,9 +467,23 @@ function analyzeComments(text) {
     "정말",
     "근데",
     "하고",
-    "인데",
+    "안데",
   ];
-  const posWords = ["좋아", "재미", "최고", "추천"];
+
+  const posWords = [
+    "좋아",
+    "재미",
+    "유익",
+    "감동",
+    "추천",
+    "최고",
+    "만족",
+    "훌륭",
+    "기대",
+    "가능",
+    "정말",
+  ];
+
   const negWords = [
     "별로",
     "지루",
@@ -485,42 +494,42 @@ function analyzeComments(text) {
     "복잡",
     "싫",
   ];
-}
 
-const cleaned = text.replace(/[^\p{L}0-9\s]/gu, " ");
-const tokens = cleaned
-  .split(/\s+/)
-  .map((w) => w.trim())
-  .filter((w) => w && !stopWords.includes(w));
-const freq = new Map();
-for (const t of tokens) {
-  freq.set(t, (freq.get(t) || 0) + 1);
-}
-const topWords = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
-let posCount = 0;
-let negCount = 0;
-const posHit = new Map();
-const negHit = new Map();
-for (const token of tokens) {
-  if (posWords.some((p) => token.includes(p))) {
-    posCount++;
-    posHit.set(token, (posHit.get(token) || 0) + 1);
+  const cleaned = text.replace(/[^\p{L}0-9\s]/gu, " ");
+  const tokens = cleaned
+    .split(/\s+/)
+    .map((w) => w.trim())
+    .filter((w) => w && !stopWords.includes(w));
+  const freq = new Map();
+  for (const t of tokens) {
+    freq.set(t, (freq.get(t) || 0) + 1);
   }
-  if (negWords.some((n) => token.includes(n))) {
-    negCount++;
-    negHit.set(token, (negHit.get(token) || 0) + 1);
+  const topWords = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+  let posCount = 0;
+  let negCount = 0;
+  const posHit = new Map();
+  const negHit = new Map();
+  for (const token of tokens) {
+    if (posWords.some((p) => token.includes(p))) {
+      posCount++;
+      posHit.set(token, (posHit.get(token) || 0) + 1);
+    }
+    if (negWords.some((n) => token.includes(n))) {
+      negCount++;
+      negHit.set(token, (negHit.get(token) || 0) + 1);
+    }
   }
+  const posTop = [...posHit.entries()].sort((a, b) => b[1] - a[1]);
+  const negTop = [...negHit.entries()].sort((a, b) => b[1] - a[1]);
+  return {
+    topWords,
+    posCount,
+    negCount,
+    totalWords: tokens.length,
+    posTop,
+    negTop,
+  };
 }
-const posTop = [...posHit.entries()].sort((a, b) => b[1] - a[1]);
-const negTop = [...negHit.entries()].sort((a, b) => b[1] - a[1]);
-return {
-  topWords,
-  posCount,
-  negCount,
-  totalWords: tokens.length,
-  posTop,
-  negTop,
-};
 
 // 댓글 모아보기 모달 페이지
 async function openMyCommentsModal() {
@@ -623,7 +632,7 @@ document
   .getElementById("categorySelect")
   .addEventListener("change", applyFilters);
 
-// ==== 9. 카메라 열기 / 캡쳐 / 닫기 실행 ====
+// ==== 9. 카메라 열기 / 캡처 / 닫기 실행 ====
 const cameraButton = document.getElementById("cameraButton");
 const cameraArea = document.getElementById("cameraArea");
 const cameraPreview = document.getElementById("cameraPreview");
@@ -631,6 +640,7 @@ const captureButton = document.getElementById("captureButton");
 const closeCameraButton = document.getElementById("closeCameraButton");
 
 let cameraStream = null;
+
 // 카메라 켜기 기능
 cameraButton.addEventListener("click", async () => {
   try {
@@ -670,10 +680,8 @@ captureButton.addEventListener("click", () => {
   const width = settings.width || 640;
   const height = settings.height || 480;
   const canvas = document.createElement("canvas");
-
   canvas.width = width;
   canvas.height = height;
-
   const ctx = canvas.getContext("2d");
   ctx.drawImage(cameraPreview, 0, 0, width, height);
   canvas.toBlob(
@@ -693,7 +701,7 @@ captureButton.addEventListener("click", () => {
           created_at: serverTimestamp(),
         });
         chatInput.value = "";
-        stopCamera(); // 촬영 후 카메라 닫기
+        stopCamera();
       } catch (err) {
         console.error("촬영 이미지 전송 오류:", err);
         alert("사진을 전송하는 중 오류가 발생했습니다.");
