@@ -817,8 +817,14 @@ async function openMyPinsModal() {
       listEl.appendChild(li);
     });
   }
+
+  document.getElementById("myPinsModal").classList.remove("hidden");
 }
 
 document
   .getElementById("openMyPinsModal")
   .addEventListener("click", openMyPinsModal);
+
+document.getElementById("closeMyPinsModal").addEventListener("click", () => {
+  document.getElementById("myPinsModal").classList.remove("hidden");
+});
