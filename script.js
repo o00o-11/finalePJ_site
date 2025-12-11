@@ -151,6 +151,9 @@ const categoryGoodsMap = {
   국내도서_자기계발: "디자인문구",
 };
 
+let selectedBook = null;
+// const, let, var
+
 async function loadAllData() {
   const [booksRes, goodsRes] = await Promise.all([
     fetch(BOOKS_JSON_URL),
