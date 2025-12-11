@@ -129,10 +129,10 @@ chatForm.addEventListener("submit", async (e) => {
 
 // ==== 1. 책 & 굿즈 데이터 API 로드 & 렌더링 ====
 const BOOKS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json"";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/books_yes24.json";
 
 const GOODS_JSON_URL =
-  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json"";
+  "https://raw.githubusercontent.com/o00o-11/finalePJ_api/refs/heads/main/goods_yes24.json";
 
 // Supabase SQL API 로드
 const SUPABASE_URL = "https://egajvihqgtaghdjccooq.supabase.co";
