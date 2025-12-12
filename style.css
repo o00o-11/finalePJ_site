@@ -256,7 +256,6 @@ header {
   cursor: pointer;
   font-size: 14px;
 }
-
 #openMyPinsModal:hover {
   background: #666;
 }
@@ -283,7 +282,6 @@ header {
   border-radius: 8px;
   object-fit: cover;
 }
-
 #myPinsList li {
   margin: 12px 0;
   display: flex;

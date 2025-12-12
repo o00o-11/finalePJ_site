@@ -226,7 +226,7 @@ function renderBooks(books) {
   const pinButtons = listEl.querySelectorAll(".pin-btn");
   pinButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
-      e.stopPropagation(); // 혹시 모를 버블링 방지
+      e.stopPropagation();
       const book = {
         detail_url: btn.dataset.detailUrl,
         title: btn.dataset.title,
@@ -384,7 +384,7 @@ async function loadComments(book) {
     listEl.innerHTML = "";
     const user = auth.currentUser;
     if (rows.length === 0) {
-      listEl.innerHTML = "<li>첫 번째 댓글을 남겨보세요 😉</li>";
+      listEl.innerHTML = "<li>첫 번째 댓글을 남겨보세요 🤠</li>";
     } else {
       rows.forEach((row) => {
         const li = document.createElement("li");
@@ -800,7 +800,7 @@ async function openMyPinsModal() {
   listEl.innerHTML = "";
 
   if (rows.length === 0) {
-    listEl.innerHTML = "<li>아직 스크랩한 책이 없습니다 🥲</li>";
+    listEl.innerHTML = "<li>아직 스크랩한 책이 없습니다 🙂</li>";
   } else {
     rows.forEach((row) => {
       const li = document.createElement("li");
@@ -826,5 +826,5 @@ document
   .addEventListener("click", openMyPinsModal);
 
 document.getElementById("closeMyPinsModal").addEventListener("click", () => {
-  document.getElementById("myPinsModal").classList.remove("hidden");
+  document.getElementById("myPinsModal").classList.add("hidden");
 });
